@@ -247,15 +247,15 @@ http://wwwal.kuicr.kyoto-u.ac.jp/www/accelerator/a4/besselroot.htmlx
 
 As an application, consider the 2D wave equation
 <p align="left">
-	u<sub>tt</sub=5(u<sub>xx</sub>+u<sub>yy</sub>)	
+	u<sub>tt</sub>=5(u<sub>xx</sub>+u<sub>yy</sub>)	
 </p>
 on the rectangle (x,y)&isin;[0,4]x[0,2], with intial configuration f(x,y)=x(4-x)y(2-y)/10 and vanishing initial
 distribution of velocities. We solve that problem and create an animation of the solution with the following commands:
 <p align="left">
 <code>(%i28)	f(x,y):=x*(4-x)*y*(2-y)/10$</code><br>
-<code>(%i29)	g(x,y):=0$</code>
+<code>(%i29)	g(x,y):=0$</code><br>
 <code>(%i30)	wave2d_rectangle(sqrt(5),4,2,f,g,4,4)$</code><br>
-<code>(%i31)	expr:%$</code>
+<code>(%i31)	expr:%$</code><br>
 <code>(%i32)	wxanimate_draw3d(s,makelist(i/10,i,0,32),
    surface_hide=true,zrange=[-1.5,1.5],
    color=orange,
