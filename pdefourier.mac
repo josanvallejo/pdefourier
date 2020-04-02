@@ -1,16 +1,10 @@
 /*
 
 pdefourier Maxima package
-Copyright 2019
-Licensed under GNU LGPL v3 (https://www.gnu.org/copyleft/lesser.html)
+Copyright 2020
+Licensed under GNU GPL v3 https://www.gnu.org/licenses/gpl-3.0.html
 Authors: Jose A. Vallejo
-        Faculty of Sciences
-	Universidad Autonoma de San Luis Potosi (Mexico)
-	http://galia.fc.uaslp.mx/~jvallejo
-
-        Emmanuel Roque
-        Department of Mathematics
-        Cinvestav-IPN (Mexico)
+         Emmanuel Roque
 */
 
 load(simplify_sum)$
@@ -1000,7 +994,7 @@ else(
         lamn:(2*n-1)*%pi/(2*p),
         Xn:-b1*lamn*cos(lamn*xvar)+a1*sin(lamn*xvar),
        /* intXn:integrate(Xn*Xn,xvar,0,p) */
-        intXn:(4*a1^2*p^2-8*a1*b1*p+4*%pi^2*b1^2*n^2-4*%pi^2*b1^2*n+%pi^2*b1^2)/(8*p),
+        intXn:(4*a1^2*p^2+4*%pi^2*b1^2*n^2-4*%pi^2*b1^2*n+%pi^2*b1^2)/(8*p)-a1*b1,
         gnq:genfouriercoeff(qaux,a1,b1,a2,b2,xvar,lamn,p)/intXn,
         gnf:genfouriercoeff(faux,a1,b1,a2,b2,xvar,lamn,p)/intXn,
         Tn:exp(-kap*(lamn)^2*tvar)*factor(expand(integrate(exp(kap*(lamn)^2*s)*at(gnq,tvar=s),s,0,tvar)+gnf)),
@@ -1095,7 +1089,7 @@ neumann_wave(Qexpr,fexpr,gexpr,h1expr,h2expr,xvar,tvar,p,cc,NN):=block(
 )$
 
 mixed_wave(Qexpr,fexpr,gexpr,a1,b1,a2,b2,h1expr,h2expr,xvar,tvar,p,cc,NN):=block(
-    [n,dd:a1*a2*L+a1*b2+a2*b1,lamn,Xn,intXn,Tn,s,gnf,gng,gnq,saux,qaux,faux,gaux],
+    [n,dd:a1*a2*p+a1*b2-a2*b1,lamn,Xn,intXn,Tn,s,gnf,gng,gnq,saux,qaux,faux,gaux],
 if ((is(a1=0) and is(b1=0)) or (is(a2=0) and is(b2=0))) then return("Error: the problem is singular. Check boundary conditions."),
 if (is(a1=0) and is(a2=0)) then (
         return(neumann_wave(Qexpr,fexpr,gexpr,h1expr/b1,h2expr/b2,xvar,tvar,p,cc,NN))
@@ -1103,7 +1097,7 @@ if (is(a1=0) and is(a2=0)) then (
 elseif (is(b1=0) and is(b2=0)) then (
         return(dirichlet_wave(Qexpr,fexpr,gexpr,h1expr/a1,h2expr/a2,xvar,tvar,p,cc,NN))
     ) else(
-    saux:(a1*h2expr-a2*h1expr)*xvar/dd+((a2*p+b2)*h1expr+b1*h2expr)/dd,
+    saux:(a1*h2expr-a2*h1expr)*xvar/dd+((a2*p+b2)*h1expr-b1*h2expr)/dd,
     if piecewisep(Qexpr) then qaux:list2pw_expr(pwglobalsuml(pw2list(Qexpr,xvar),-diff(saux,tvar,2)+(h2expr-h1expr)*cc^2/p),xvar)
     else qaux:Qexpr-diff(saux,t,2)+cc^2*(h2expr-h1expr)/p,
     if piecewisep(fexpr) then faux:list2pw_expr(pwglobalsuml(pw2list(fexpr,xvar),-at(saux,tvar=0)),xvar)
@@ -1113,33 +1107,47 @@ elseif (is(b1=0) and is(b2=0)) then (
 if ((is(a1=0) and is(b2=0)) or (is(a2=0) and is(b1=0))) then (
         declare(n,integer),
         assume(2*n-1>0),
-        lamn:(2*n-1)*%pi/(2*L),
-        Xn:b1*lamn*cos(lamn*xvar)+a1*sin(lamn*xvar),
+        lamn:(2*n-1)*%pi/(2*p),
+        Xn:-b1*lamn*cos(lamn*xvar)+a1*sin(lamn*xvar),
         intXn:integrate(Xn*Xn,xvar,0,p),
-        gnq:genfouriercoeff(qaux,a1,b1,a2,b2,xvar,lamn,p)/intXn,
-        gnf:genfouriercoeff(faux,a1,b1,a2,b2,xvar,lamn,p)/intXn,
-        gng:genfouriercoeff(gaux,a1,b1,a2,b2,xvar,lamn,p)/intXn,
+        gnq:syntactic_factor(trigreduce(genfouriercoeff(qaux,a1,b1,a2,b2,xvar,lamn,p)/intXn)),
+        gnf:syntactic_factor(trigreduce(genfouriercoeff(faux,a1,b1,a2,b2,xvar,lamn,p)/intXn)),
+        gng:syntactic_factor(trigreduce(genfouriercoeff(gaux,a1,b1,a2,b2,xvar,lamn,p)/intXn)),
+        /* The explicit construction of coefficients Tn is with the folowing differential equation
         Tn:factor(radcan(expand(rhs(ic2(ode2('diff(Tn,tvar,2) + cc^2*(lamn)^2*Tn = gnq,Tn,tvar),tvar=0,Tn=gnf,'diff(Tn,tvar)=gng))))),
+        This can be solved by the method of variation of parameters obtaining the following
+         (integrate(Qn(s)*cos(c*%lambda[n]*s),s,0,t)*sin(c*%lambda[n]*t)-
+            integrate(Qn(s)*sin(c*%lambda[n]*s),s,0,t)*cos(c*%lambda[n]*t))/(c*%lambda[n])
+            +(gng*sin(c*%lambda[n]*t))/(c*%lambda[n])+gnf*cos(c*%lambda[n]*t)
+
+            Something went wrong with at, using ratsubst instead in the meantime */
+        Tn:(integrate(ratsubst(s,tvar,gnq)*sin(cc*lamn*(tvar-s)),s,0,tvar)+gng*sin(cc*lamn*tvar))/(cc*lamn)+gnf*cos(cc*lamn*tvar),
         forget(2*n-1>0),
         remove(n,integer),
         saux+sum(Xn*Tn,n,1,NN)
                                                             )
     else (
         lamn:%lambda[n],
-        disp(%lambda[n]," are the solutions of ",ratsimp((a1*a2-b1*b2*(%lambda[n])^2)*sin(%lambda[n]*L)+
-                    (a1*b2+a2*b1)*%lambda[n]*cos(%lambda[n]*L)=0)),
-        Xn:b1*lamn*cos(lamn*xvar)+a1*sin(lamn*xvar),
+        disp(%lambda[n]," are the solutions of ",ratsimp((a1*a2-b1*b2*(%lambda[n])^2)*sin(%lambda[n]*p)+
+                    (a1*b2-a2*b1)*%lambda[n]*cos(%lambda[n]*p)=0)),
+        Xn:-b1*lamn*cos(lamn*xvar)+a1*sin(lamn*xvar),
         (
             if is(b1=0) then
-            intXn:(L+(b2/a2)*(cos(L*lamn))^2)/2
+            intXn:(p+(b2/a2)*(cos(p*lamn))^2)/2
             else
-            intXn:integrate(Xn*Xn,xvar,0,L)
+            intXn:integrate(Xn*Xn,xvar,0,p)
         ),
-        gnq:genfouriercoeff(qaux,a1,b1,a2,b2,xvar,lamn,L)/intXn,
-        gnf:genfouriercoeff(faux,a1,b1,a2,b2,xvar,lamn,L)/intXn,
-        gng:genfouriercoeff(gaux,a1,b1,a2,b2,xvar,lamn,L)/intXn,
+        gnq:genfouriercoeff(qaux,a1,b1,a2,b2,xvar,lamn,p)/intXn,
+        gnf:genfouriercoeff(faux,a1,b1,a2,b2,xvar,lamn,p)/intXn,
+        gng:genfouriercoeff(gaux,a1,b1,a2,b2,xvar,lamn,p)/intXn,
+         /* The explicit construction of coefficients Tn is with the folowing differential equation
         Tn:factor(radcan(expand(rhs(ic2(ode2('diff(Tn,tvar,2) + cc^2*(lamn)^2*Tn = gnq,Tn,tvar),tvar=0,Tn=gnf,'diff(Tn,tvar)=gng))))),
-        saux+sum(Xn*Tn,n,1,NN)
+        This can be solved by the method of variation of parameters obtaining the following
+         (integrate(Qn(s)*cos(c*%lambda[n]*s),s,0,t)*sin(c*%lambda[n]*t)-
+            integrate(Qn(s)*sin(c*%lambda[n]*s),s,0,t)*cos(c*%lambda[n]*t))/(c*%lambda[n])
+            +(gng*sin(c*%lambda[n]*t))/(c*%lambda[n])+gnf*cos(c*%lambda[n]*t) */
+        Tn:(integrate(at(gnq,tvar=s)*sin(cc*lamn*(tvar-s)),s,0,tvar)+gng*sin(cc*lamn*tvar))/(cc*lamn)+gnf*cos(cc*lamn*tvar),
+        saux+syntactic_factor(sum(Xn*Tn,n,1,NN))
         )
     )
 )$
@@ -1398,7 +1406,14 @@ dirichlet_poisson_rectangle(Qexpr,aa,bb,f1expr,f2expr,g1expr,g2expr,var1,var2,NN
     assume(n>0),
     [[bnQ],svQ]:fouriersincoeff(Qexpr,var1,aa),
     eq:'diff(bny,var2,2)-(n*%pi/aa)^2*bny=bnQ,
+    /*For the explicit construction of coefficients u_n
     un:rhs(bc2(ode2(eq,bny,var2),var2=0,bny=0,var2=bb,bny=0)),
+    to avoid potential issues with bc2 we develope the closed-form solution instead
+     (a*%e^(-(%pi*n*y)/a)*(((integrate(%e^((%pi*n*s)/a)*Qn(s),s,0,b)-%e^((%pi*b*n)/a)*integrate(Qn(s),s,0,b))*%e^((2*%pi*n*y)/a))/(%e^((2*%pi      *b*n)/a)-1)+integrate(Qn(s),s,0,y)*%e^((%pi*n*y)/a)-integrate(%e^((%pi*n*s)/a)*Qn(s),s,0,y)-(integrate(%e^((%pi*n*s)/a)*Qn(s),s,0,           b)-%e^((%pi*b*n)/a)*integrate(Qn(s),s,0,b))/(%e^((2*%pi*b*n)/a)-1)))/(2*%pi*n)
+        After many manipulations this can be written as follows
+        */
+    un:(-aa/(%pi*n*sinh(%pi*n*bb/aa)))*(sinh(n*%pi*(bb-var2)/aa)*integrate(at(bnQ,var2=s)*sinh(n*%pi*s/aa),s,0,var2)
+        +sinh(var2/aa)*integrate(at(bnQ,var2=s)*sinh(n*%pi*(bb-s)/aa),s,var2,bb)),
     if emptyp(svQ) then (
         ans:syntactic_factor(fouriersincoeff_expand([[un],[]],var1,aa,NN))+
            dirichlet_laplace_rectangle(aa,bb,f1expr,f2expr,g1expr,g2expr,var1,var2,NN),
@@ -1407,7 +1422,8 @@ dirichlet_poisson_rectangle(Qexpr,aa,bb,f1expr,f2expr,g1expr,g2expr,var1,var2,NN
         return(ans))
     else(
         indxpQ:map(first,svQ),
-        svU:map(lambda([e],[e,rhs(bc2(ode2('diff(bny,var2,2)-(e*%pi/aa)^2*bny=evalsv_scn(bnQ,svQ,indxpQ,e),bny,var2),var2=0,bny=0,var2=bb,bny=0))]),indxpQ),
+        svU:map(lambda([e],[e,(-aa/(%pi*e*sinh(%pi*e*bb/aa)))*(sinh(e*%pi*(bb-var2)/aa)*integrate(at(evalsv_scn(bnQ,svQ,indxpQ,e),var2=s)*sinh(e*%pi*s/aa),s,0,var2)
+        +sinh(var2/aa)*integrate(at(evalsv_scn(bnQ,svQ,indxpQ,e),var2=s)*sinh(e*%pi*(bb-s)/aa),s,var2,bb)) ]) ,indxpQ),
         ans:syntactic_factor(fouriersincoeff_expand([[un],svU],var1,aa,NN))+
                dirichlet_laplace_rectangle(aa,bb,f1expr,f2expr,g1expr,g2expr,var1,var2,NN),
         remove(n,integer),
