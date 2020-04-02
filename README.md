@@ -4,14 +4,14 @@ Fourier analysis provides a set of techniques for solving partial differential e
 
 ## Overview ##
 
-This Maxima package computes Fourier series symbolically for piecewise-smooth functions. Using the method of separation of variables it is able to solve symbolically the one-dimensional heat and wave equations on a domain [0,L], with regular
+This Maxima package computes symbolically the Fourier of piecewise-smooth functions. Using the method of separation of variables it is also able to symbolically solve the one-dimensional heat and wave equations on a domain [0,L], with regular
 Sturm-Liouville conditions, that is, general boundary conditions of the form:
 <p align="left">
 &alpha;<sub>1</sub>u(0,t) + &beta;<sub>1</sub>u<sub>x</sub>(0,t) = h<sub>1</sub>(t) <br>
 &alpha;<sub>2</sub>u(L,t) + &beta;<sub>2</sub>u<sub>x</sub>(L,t) = h<sub>2</sub>(t)
 </p>
 
-Also, the package can solve the two-dimensional Laplace equation for a variety of domains (rectangles, disks, annuli, wedges) and Dirichlet and Neumann boundary conditions. In the case of a rectangular domain [0,a] x [0,b], the package can solve the Laplace equation with mixed boundary conditions of the form
+Moreover, the package can solve the two-dimensional Laplace equation for a variety of domains (rectangles, disks, annuli, wedges) either with Dirichlet or Neumann boundary conditions. In the case of a rectangular domain [0,a] x [0,b], the package can solve the Laplace equation with mixed boundary conditions of the form
 <p align="left">
 (1-&alpha;)u(x,0) + &alpha;u<sub>y</sub>(x,0) = f<sub>0</sub>(x), 0 &le; x &le; a<br>
 (1-&beta;)u(x,b) + &beta;u<sub>y</sub>(x,b) = f<sub>b</sub>(x), 0 &le; x &le; a<br>
