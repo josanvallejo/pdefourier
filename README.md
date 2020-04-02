@@ -28,6 +28,17 @@ The [Documentation folder](doc) folder contains a [pdf file](doc/pdefourier-exam
 of the implementation and a description of many of the functions contained in the package, as well as their syntax. Also, there is a [Maxima session](doc/Documentation-pdefourier.wxm) (in wxm format) with lots of examples, graphics, animations and tips for use.
 Here, we only give a quick introduction to the main commands used for solving typical problems.
 
+## Installation ##
+
+The package can be installed by putting a copy of the files `pdefourier.mac`, `syntactic_factor.mac`, and `piecewise.mac`
+inside a folder contained in the
+environment variable `file_search_maxima`. In a Linux box, such a system-wide location could be something like
+`/usr/share/maxima/5.42.2/share/contrib/`, while
+in a Windows environment typically it will be
+`c:\Program files (x86)\Maxima-sbcl-5.42.0/share/maxima/5.42.0/share/contrib`
+(you may  need  administrator  rights  in  order  to  do  that in either case). The
+package can then be loaded  with the command `load(pdefourier)` inside a Maxima session.
+
 ## The heat equation ##
 
 The general Sturm-Liouville problem for the heat equation can be expressed as
