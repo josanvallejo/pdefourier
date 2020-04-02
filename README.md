@@ -195,6 +195,35 @@ To get a graphical representation of the solution, we can truncate the resulting
 </p>
 ![Neumann problem for Laplace equation on a wedge](img/Neumann-Laplace.png?raw=true)
 
+## Bessel functions ##
+
+Maxima has built-in functions for computing values of the Bessel functions, but not of their zeros.
+These zeros are needed for solving some problems, notably the 2D wave equation on bounded domains.
+The package `pdefourier` implements a fast and efficient algorithm for this task, the command
+`BesselJZeros` calculates the zeros of Bessel functions of the first kind J<sub>&nu;</sub>(x)
+when &nu;>-1. Thus, the 5th zero of J<sub>4</sub>(x) is given by
+<p align="left">
+<code>(%i24)	BesselJZeros(4,5);</code><br>
+<code>(%o24)	20.82693295696241</code>
+</p>
+while the first five zeros of J<sub>4</sub>(x) are obtained using the optional argument `all`:
+<p align="left">
+<code>(%i25)	BesselJZeros(4,5,all);</code><br>
+<code>(%o25)	[7.5883424345038,11.06470948850117,14.37253667161759,17.61596604980481,20.82693295696241]</code>
+</p>
+There is no upper bound in the order (although precision decreases with higher values of &nu;). Many
+algorithms use some variant of MacMahon's formula or the Halley method, so they are not capable of working with
+big values. For instance, neither Mathematica(TM) nor Wolfram Alpha can compute this:
+<p align="left">
+<code>(%i26)	BesselJZeros(146225,3)</code><br>
+<code>(%o26)	146456.0070601201</code>
+</p>
+The zeros of the derivatives of first-order Bessel functions can be computed with the aid of
+formulas such as
+<p align="left">
+ J'<sub>0</sub>(z)=-J<sub>1</sub>(z)<br>
+ J'<sub>&nu;</sub>(z)=(J<sub>&nu;-1</sub>(z)-J<sub>&nu;+1</sub>(z))/2
+</p>
 
 ## Software used
 
