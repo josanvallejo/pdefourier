@@ -215,7 +215,7 @@ There is no upper bound in the order (although precision decreases with higher v
 algorithms use some variant of MacMahon's formula or the Halley method, so they are not capable of working with
 big values. For instance, neither Mathematica(TM) nor Wolfram Alpha can compute this:
 <p align="left">
-<code>(%i26)	BesselJZeros(146225,3)</code><br>
+<code>(%i26)	BesselJZeros(146225,3);</code><br>
 <code>(%o26)	146456.0070601201</code>
 </p>
 The zeros of the derivatives of first-order Bessel functions can be computed with the aid of
@@ -243,6 +243,25 @@ http://wwwal.kuicr.kyoto-u.ac.jp/www/accelerator/a4/besselroot.htmlx
 		[10.71143397069994,15.28673766733295,19.00459353794605,22.50139872677729,25.89127727683913],
 		[11.77087667495558,16.4478527484865,20.22303141268171,23.76071586032743,27.18202152719051]
 	</code>
+</p>
+
+As an application, consider the 2D wave equation
+<p align="left">
+	u<sub>tt</sub=5(u<sub>xx</sub>+u<sub>yy</sub>)	
+</p>
+on the rectangle (x,y)&isin;[0,4]x[0,2], with intial configuration f(x,y)=x(4-x)y(2-y)/10 and vanishing initial
+distribution of velocities. We solve that problem and create an animation of the solution with the following commands:
+<p align="left">
+<code>(%i28)	f(x,y):=x*(4-x)*y*(2-y)/10$</code><br>
+<code>(%i29)	g(x,y):=0$</code>
+<code>(%i30)	wave2d_rectangle(sqrt(5),4,2,f,g,4,4)$</code><br>
+<code>(%i31)	expr:%$</code>
+<code>(%i32)	wxanimate_draw3d(s,makelist(i/10,i,0,32),
+   surface_hide=true,zrange=[-1.5,1.5],
+   color=orange,
+   parametric_surface(x,y,subst(t=s,expre),x,0,4,y,0,2)
+),wxanimate_framerate=8$</code><br>
+<code>(%t28)</code>
 </p>
 
 
