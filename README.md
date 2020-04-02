@@ -245,7 +245,7 @@ http://wwwal.kuicr.kyoto-u.ac.jp/www/accelerator/a4/besselroot.htmlx
 	</code>
 </p>
 
-As an application, consider the 2D wave equation
+As an application, consider the 2D wave equation (with c<sup>2</sup>=5):
 <p align="left">
 	u<sub>tt</sub>=5(u<sub>xx</sub>+u<sub>yy</sub>)	
 </p>
