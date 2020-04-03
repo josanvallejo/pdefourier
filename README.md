@@ -60,7 +60,12 @@ Let us draw the curve to chek the answer:
 </p>
 [](img/Example-01.png)
 
-The Fourier coefficients are computed with `fouriercoeff`; notice that the function os defined on [-&pi;&pi;]:
+The Fourier coefficients are computed with `fouriercoeff`, whose syntax is
+<p align="center">
+<code>fouriercoeff(expr,var,p)</code>
+</p>
+Here `p` is given by if the whole interval of definition for `f` is [a,b]. In the present case,
+notice that the function is defined on [-&pi;&pi;]:
 <p align="left">
 <code>(%i5)	fouriercoeff(v(x),x,%pi);</code><br>
 <code>(%o5)	[[(%pi^3+2)/(6*%pi),(((2*%pi-3)*n^2-18*%pi)*(-1)^n-3*n^2)/(%pi*n^2*(n^2-9)),((%pi^2*n^2-2)*(-1)^n+2)/(%pi*n^3)],[[3,-2/9,-(18*%pi^2-27*%pi-8)/(54*%pi)]]]</code>
