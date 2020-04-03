@@ -76,16 +76,18 @@ This example illustrates the presence of singular values of the coefficients (fo
 
 Here is a well-known example of an unbounded function:
 <p align="left">
-<code>(%i8)	square(x):=if (x<-%pi) then 0 elseif (-%pi<=x and x<=%pi) then 1 elseif (x>%pi) then 0$</code><br>
-<code>(%i9)	paritycheck(square(x),x);</code><br>
+<code>(%i8)	absolute(x):=if (x<=0) then -x elseif (x>0) then x$</code><br>
+<code>(%i9)	paritycheck(absolute(x),x);</code><br>
 <code>(%o9)	even</code>
 </p>
 and its bounded version, for which we compute the Fourier series:
 <p align="left">
-<code>(%i8)	square0(x):=if (-2 <= x and x < -1) then 0 elseif (-1 <= x and x <= 1) then 1 elseif (1 < x and x <= 2) then 0$</code><br>
-<code>(%i9)	paritycheck(square0(x),x);</code><br>
+<code>(%i8)	absolute0(x):=if ( x>=-1 and x<=0) then -x elseif (x>0 and x<=1) then x$</code><br>
+<code>(%i9)	paritycheck(absolute0(x),x);</code><br>
 <code>(%o9)	even</code><br>
-<code>(%i10)	fouriercoeff(square0(x),x,2);</code><br>
+<code>(%i10)	fouriercoeff(absolute0(x),x,1);
+	<fouriercoeff(absolute0(x),x,1);
+					 /code><br>
 <code>(%o10)	[[1/2,(2*sin((%pi*n)/2))/(%pi*n),0],[]]</code>
 </p>
 This can be simplified a little bit by using some trigonometric rules:
