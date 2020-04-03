@@ -39,6 +39,29 @@ in a Windows environment typically it will be
 (you may  need  administrator  rights  in  order  to  do  that in either case). The
 package can then be loaded  with the command `load(pdefourier)` inside a Maxima session.
 
+## Fourier coefficients and series ##
+
+The package can deal with piecewise functions, defined in natural notation:
+<p align="left">
+<code>(%i1)	load("pdefourier.mac")$ </code><br>
+<code>(%i2)	v(x):=if (-%pi<=x and x<0) then x^2 elseif (0<=x and x<=%pi) then sin(3*x)$</code>
+</p>
+
+It is possible to detect the parity of such a functions, with `paritycheck`; possible outcomes are `even`, `odd` or `none`:
+<p align="left">
+<code>(%i3)	paritycheck(v(x),x);</code><br>
+<code>(%i2)	none</code>
+</p>
+
+Let us draw the curve to chek the answer:
+
+It is possible to detect the parity of such a functions, with `paritycheck`; possible outcomes are `even`, `odd` or `none`:
+<p align="left">
+<code>(%i4)	plot2d(v(x),[x,-%pi,%pi],[ylabel,"v(x)"]);</code><br>
+<code>(%t4)	none</code>
+</p>
+
+
 ## The heat equation ##
 
 The general Sturm-Liouville problem for the heat equation can be expressed as
