@@ -85,17 +85,10 @@ and its bounded version, for which we compute the Fourier series:
 <code>(%i8)	absolute0(x):=if ( x>=-1 and x<=0) then -x elseif (x>0 and x<=1) then x$</code><br>
 <code>(%i9)	paritycheck(absolute0(x),x);</code><br>
 <code>(%o9)	even</code><br>
-<code>(%i10)	fouriercoeff(absolute0(x),x,1);
-	<fouriercoeff(absolute0(x),x,1);
-					 /code><br>
-<code>(%o10)	[[1/2,(2*sin((%pi*n)/2))/(%pi*n),0],[]]</code>
+<code>(%i10)	fourier_series(absolute0(x),x,1,inf);</code><br>
+<code>(%o10)	(2*sum((((-1)^n-1)*cos(%pi*n*x))/n^2,n,1,inf))/%pi^2+1/2</code>
 </p>
-This can be simplified a little bit by using some trigonometric rules:
-<p align="left">
-<code>(%i11)	defrule(rul1,sin((%pi*n)/2),(-1)^(floor(n/2))*(1 - (-1)^n)/2)$</code><br>
-<code>(%i12)	apply1(%th(2),rul1)</code><br>
-<code>(%o12)	[[1/2,((-1)^floor(n/2)*(1-(-1)^n))/(%pi*n),0],[]]</code>
-</p>
+
 
 ## The heat equation ##
 
