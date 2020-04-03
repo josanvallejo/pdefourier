@@ -60,7 +60,7 @@ It is possible to detect the parity of such a functions, with `paritycheck`; pos
 <code>(%i4)	plot2d(v(x),[x,-%pi,%pi],[ylabel,"v(x)"]);</code><br>
 <code>(%t4)	none</code>
 </p>
-
+[](img/Example-01.png)
 
 
 ## The heat equation ##
