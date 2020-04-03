@@ -72,7 +72,7 @@ This example illustrates the presence of singular values of the coefficients (fo
 <code>(%i7)	wxplot2d([v(x),vseries15],[x,-%pi,%pi],[legend,false]);</code><br>
 <code>(%t7)	</code>	
 </p>
-
+[](img/Example-02.png)
 
 ## The heat equation ##
 
