@@ -82,7 +82,7 @@ Here is a well-known example of an unbounded function:
 </p>
 and its bounded version, for which we compute the Fourier series:
 <p align="left">
-<code>(%i8)	square0(x):=if (-2<=x and x<-1) then 0 elseif (-1<=x and x<=1) then 1 elseif (1<x and x<=2) then 0$</code><br>
+<code>(%i8)	square0(x):=if (-2<=x and x<=-1) then 0 elseif (-1<x and x<1) then 1 elseif (1<=x and x<=2) then 0$</code><br>
 <code>(%i9)	paritycheck(square0(x),x);</code><br>
 <code>(%o9)	even</code><br>
 <code>(%i10)	fouriercoeff(square0(x),x,2);</code><br>
