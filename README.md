@@ -54,13 +54,24 @@ It is possible to detect the parity of such a functions, with `paritycheck`; pos
 </p>
 
 Let us draw the curve to chek the answer:
-
-It is possible to detect the parity of such a functions, with `paritycheck`; possible outcomes are `even`, `odd` or `none`:
 <p align="left">
 <code>(%i4)	plot2d(v(x),[x,-%pi,%pi],[ylabel,"v(x)"]);</code><br>
-<code>(%t4)	none</code>
+<code>(%t4)</code>
 </p>
 [](img/Example-01.png)
+
+The Fourier coefficients are computed with `fouriercoeff`; notice that the function os defined on [-&pi;&pi;]:
+<p align="left">
+<code>(%i5)	fouriercoeff(v(x),x,%pi);</code><br>
+<code>(%o5)	[[(%pi^3+2)/(6*%pi),(((2*%pi-3)*n^2-18*%pi)*(-1)^n-3*n^2)/(%pi*n^2*(n^2-9)),((%pi^2*n^2-2)*(-1)^n+2)/(%pi*n^3)],[[3,-2/9,-(18*%pi^2-27*%pi-8)/(54*%pi)]]]</code>
+</p>
+
+This example illustrates the presence of singular values of the coefficients (for n=3). We can approximate the function by its Fourier series truncated to order 15:
+<p align="left">
+<code>(%i6)	vseries15:fourier_series(v(x),x,%pi,15)$</code><br>
+<code>(%i7)	wxplot2d([v(x),vseries15],[x,-%pi,%pi],[legend,false]);</code><br>
+<code>(%t7)	</code>	
+</p>
 
 
 ## The heat equation ##
