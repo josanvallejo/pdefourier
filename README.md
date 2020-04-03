@@ -62,6 +62,7 @@ It is possible to detect the parity of such a functions, with `paritycheck`; pos
 </p>
 
 
+
 ## The heat equation ##
 
 The general Sturm-Liouville problem for the heat equation can be expressed as
