@@ -64,7 +64,7 @@ The Fourier coefficients are computed with `fouriercoeff`, whose syntax is
 <p align="center">
 <code>fouriercoeff(expr,var,p)</code>
 </p>
-Here `p` is given by if the whole interval of definition for `f` is [a,b]. In the present case,
+Here `p` is given by if the whole interval of definition for `expr` is [a,b]. In the present case,
 notice that the function is defined on [-&pi;&pi;]:
 <p align="left">
 <code>(%i5)	fouriercoeff(v(x),x,%pi);</code><br>
