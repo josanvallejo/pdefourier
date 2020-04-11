@@ -153,7 +153,7 @@ command  `wxfourier_freq`:
 <img src="img/Example-harm01.png">
 
 For very discontinous functions, the amplitude of harmonics does not decrease that fast
-(or do not decrease at all). Consider the example of the following function:
+(or does not decrease at all). Consider the example of the following function:
 
 <p align="left">
 <code>(%i7)	f0(x):=if (x>=-4 and x<-3 ) then 0 elseif (-3<=x and x<=-2) then 1 elseif (-2<x and x<-1) then 0 
