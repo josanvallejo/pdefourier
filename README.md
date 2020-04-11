@@ -98,14 +98,18 @@ and its bounded version, for which we compute the Fourier series:
 
 Frequency analysis is very useful in Engineering applications (but also in Physics). This technique
 requires that the Fourier series be first re-expressed in the following form: by using the identity
+
 <p align="left">
                                         a cos(w)+b sin(w)=r cos(w-u)
 </p>
+
 where the modulus and the phase shift are given, respectively, by r=sqrt(a<sup>2</sup>+b<sup>2</sup>) and
 u=atan(b/a), we can rewrite the terms summed in the series as the so-called harmonics:
+
 <p align="left">
                                                 c[n] cos(nwx-u[n])
 </p>
+
 In the theory of sound, the first harmonic (corresponding to n=1) is called the fundamental
 harmonic. The remaining ones are called overtones. The coefficients c[n] are the harmonic
 amplitudes, and the absolute value |c[n]| is a measure of the relative importance of the nth 
@@ -113,9 +117,11 @@ harmonic in a given signal (sound).
 The frequency analysis is done in `pdefourier` with the aid of the function
 `fourier_freq`. The function `fourier_harm` returns a list with the first n harmonics of a given function,
 with the syntax
+
 <p align="center">
 <code>fourier_harm(function(variable),variable,p,n)</code>
 </p>
+
 where p=(b-a)/2 and [a,b] is the interval of definition of the function, while `fourier_freq_list`
 (with the same syntax) gives the list of the amplitudes.
 
