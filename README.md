@@ -13,8 +13,8 @@ Fourier analysis provides a set of techniques for solving partial differential e
 [Bessel functions](#bessel)         
 
 
-<a name="overview">
-## Overview ##<a/>
+## <a name="overview">
+Overview<a/> ##
 
 This Maxima package computes symbolically the Fourier of piecewise-smooth functions. Using the method of separation of variables it is also able to symbolically solve the one-dimensional heat and wave equations on a domain [0,L], with regular
 Sturm-Liouville conditions, that is, general boundary conditions of the form:
