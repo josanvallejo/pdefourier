@@ -183,7 +183,7 @@ as the following animation shows (this too requires the wxMaxima frontend):
 
 <p align="left">
 <code>(%i11)	ramp(x):=if (-5<=x and x<=-1) then (x+3)/2 else 0$</code><br>
-<code>(%i12)	define(ramp_series(x,n),fourier_series(ramp(x),x,2,n))$</code><br>
+<code>(%i12)	define(ramp_series(x,n),fourier_series(ramp(x),x,2,n))$</code>
 <code><pre>(%i13)	with_slider_draw(k,makelist(j,j,1,10),    
     dimensions=[900,450],    
     xrange=[-5.25,10.25],    
