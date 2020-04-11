@@ -141,8 +141,8 @@ Here is the example of the square pulse with compact support on [-2,2]:
 <code>(%o5)	[[1.0,0.6366197723675814],[2.0,0.0],[3.0,0.2122065907891938],[4.0,0.0],[5.0,0.1273239544735163]]</code><br>
 </p>
 
-For smooth or mildly non-smooth functions, the Fourier series converge very fast, and so the first
-few terms  are enough to get a good approximation. This is reflected in the relative weight of each
+For smooth or mildly non-smooth functions, the Fourier series converges very fast, and so the first
+few terms  suffice to get a good approximation. This is reflected in the relative weight of each
 harmonic (fastly decreasing), and can be visualized (using the wxMaxima frontend) with the
 command  `wxfourier_freq`:
 
