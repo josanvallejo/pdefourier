@@ -179,30 +179,30 @@ as the following animation shows (this too requires the wxMaxima frontend):
 <code>(%i11)	ramp(x):=if (-5<=x and x<=-1) then (x+3)/2 else 0$</code><br>
 <code>(%i12)	define(ramp_series(x,n),fourier_series(ramp(x),x,2,n))$</code><br>
 <code>(%i13)	with_slider_draw(k,makelist(j,j,1,10),<br/>
-  dimensions=[900,450],<br/>
-  xrange=[-5.25,10.25],<br/>
-  yrange_secondary=[-1.45,1.45],<br/>
-  axis_top=false,<br/>
-  axis_left=false,<br/>
-  xtics=none,<br/>
-  user_preamble=["set y2label tc rgb 'blue'","set ylabel tc rgb 'red'","set grid y2"],<br/>
-  yaxis=false,<br/>
-  ytics=none,<br/>
-  yaxis_secondary=true,<br/>
-  ylabel_secondary="|c_n|",<br/>
-  ytics_secondary=auto,<br/>
-    color=blue,<br/>
-    label(["w(n)=nw_0",5,-0.25]),<br/>
-    points_joined=impulses,line_width=4,color=blue,<br/>
-    points(fourier_freq_list(ramp(x),x,2,k)),<br/>
-    line_width=1,<br/>
-    color=violet,<br/>
-    key="ramp(x)",key_pos=top_left,<br/>
-    explicit(ramp(x),x,-5,-1),<br/>
-    line_width=2,<br/>
-    key="Fourier series",<br/>
-    color=red,explicit(ramp_series(x,k),x,-5,-1)  <br/>
-),wxplot_size=[900,450];</code><br/>
+    dimensions=[900,450],<br/>
+    xrange=[-5.25,10.25],<br/>
+    yrange_secondary=[-1.45,1.45],<br/>
+    axis_top=false,<br/>
+    axis_left=false,<br/>
+    xtics=none,<br/>
+    user_preamble=["set y2label tc rgb 'blue'","set ylabel tc rgb 'red'","set grid y2"],<br/>
+    yaxis=false,<br/>
+    ytics=none,<br/>
+    yaxis_secondary=true,<br/>
+    ylabel_secondary="|c_n|",<br/>
+    ytics_secondary=auto,<br/>
+      color=blue,<br/>
+      label(["w(n)=nw_0",5,-0.25]),<br/>
+      points_joined=impulses,line_width=4,color=blue,<br/>
+      points(fourier_freq_list(ramp(x),x,2,k)),<br/>
+      line_width=1,<br/>
+      color=violet,<br/>
+      key="ramp(x)",key_pos=top_left,<br/>
+      explicit(ramp(x),x,-5,-1),<br/>
+      line_width=2,<br/>
+      key="Fourier series",<br/>
+      color=red,explicit(ramp_series(x,k),x,-5,-1)  <br/>
+    ),wxplot_size=[900,450];</code><br/>
 <code>(%t13)	</code>	
 </p>
 <img src="img/FreqSpec.gif">
