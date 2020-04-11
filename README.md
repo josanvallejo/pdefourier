@@ -123,7 +123,7 @@ Here is the example of the square pulse with compact support on [-2,2]:
 
 <p align="left">
 <code>(%i1)	load(pdefourier)$</code><br>
-<code>(%i2)	square0(x):=if (-2<=x and x<-1) then 0 elseif (-1<=x and x<=1) then 1 elseif (1<x and x< =2) then 0$</code><br>
+<code>(%i2)	square0(x):=if (-2<=x and x<-1) then 0 elseif (-1<=x and x<=1) then 1 elseif (1 < x and x< =2) then 0$</code><br>
 <code>(%i3)	plot2d(square0(x),[x,-2,2],[y,-0.1,1.1],[ylabel,"square pulse"]);</code><br>
 <code>(%t3)	</code>
 </p>
