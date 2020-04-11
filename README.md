@@ -107,12 +107,12 @@ where the modulus and the phase shift are given, respectively, by r=sqrt(a<sup>2
 u=atan(b/a), we can rewrite the terms summed in the series as the so-called harmonics:
 
 <p align="left">
-                                                c[n] cos(nwx-u[n])
+	c<sub>n</sub> cos(nwx-u<sub>n</sub>)
 </p>
 
 In the theory of sound, the first harmonic (corresponding to n=1) is called the fundamental
-harmonic. The remaining ones are called overtones. The coefficients c[n] are the harmonic
-amplitudes, and the absolute value |c[n]| is a measure of the relative importance of the nth 
+harmonic. The remaining ones are called overtones. The coefficients c<sub>n</sub> are the harmonic
+amplitudes, and the absolute value |c<sub>n</sub>| is a measure of the relative importance of the nth 
 harmonic in a given signal (sound). 
 The frequency analysis is done in `pdefourier` with the aid of the function
 `fourier_freq`. The function `fourier_harm` returns a list with the first n harmonics of a given function,
