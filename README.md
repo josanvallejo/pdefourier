@@ -184,7 +184,7 @@ as the following animation shows (this too requires the wxMaxima frontend):
 <p align="left">
 <code>(%i11)	ramp(x):=if (-5<=x and x<=-1) then (x+3)/2 else 0$</code><br>
 <code>(%i12)	define(ramp_series(x,n),fourier_series(ramp(x),x,2,n))$</code><br>
-<pre><code>(%i13)	with_slider_draw(k,makelist(j,j,1,10),    
+<code><pre>(%i13)	with_slider_draw(k,makelist(j,j,1,10),    
     dimensions=[900,450],    
     xrange=[-5.25,10.25],    
     yrange_secondary=[-1.45,1.45],    
@@ -208,7 +208,7 @@ as the following animation shows (this too requires the wxMaxima frontend):
       line_width=2,    
       key="Fourier series",    
       color=red,explicit(ramp_series(x,k),x,-5,-1)     
-    ),wxplot_size=[900,450];</code></pre><br/>
+    ),wxplot_size=[900,450];</pre></code><br/>
 <code>(%t13)	</code>	
 </p>
 <img src="img/FreqSpec.gif">
