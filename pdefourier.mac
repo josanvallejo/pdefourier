@@ -9,20 +9,8 @@ Authors: Jose A. Vallejo
 
 load(simplify_sum)$
 load(draw)$
-load(piecewise)$
-load(syntactic_factor)$
-
-piecewisep(expr):=if atom(expr) then false else is(inpart(expr,0)="if")$
-paritycheck(expr,var):=block(
-    if piecewisep(expr) then return(parityL(pw2list(expr,var),var))
-    elseif listp(expr) then return(parityL(expr,var))
-    else (
-    if evenfunp(expr,var) then return('even)
-    elseif oddfunp(expr,var) then return('odd)
-    else return('none)
-    )
-)$
-
+load("piecewise.mac")$
+load("syntactic_factor.mac")$
 
 /* sum2list(expr)
 Auxiliary function
@@ -153,13 +141,13 @@ foucoeffpw(L,var):=block(
     answ:[a0,an,simplify_sum(bn)],
     return(ratsimp(answ)))
     elseif is(parityL(L,var)=even) then (
-    a0:(1/(2*lm))*pwintegrate(L,var),
+    a0:(1/(2*lm))*pwintegratel(L,var),
     an:sum(heuristic_an(Laux[i][2],var,lm,Laux[i][1][1],Laux[i][1][2]),i,1,llaux),
     bn:0,
     answ:[simplify_sum(a0),simplify_sum(an),bn],
     return(ratsimp(answ)))
     else(
-    a0:(1/(2*lm))*pwintegrate(L,var),
+    a0:(1/(2*lm))*pwintegratel(L,var),
     an:sum(heuristic_an(Laux[i][2],var,lm,Laux[i][1][1],Laux[i][1][2]),i,1,llaux),
     bn:sum(heuristic_bn(Laux[i][2],var,lm,Laux[i][1][1],Laux[i][1][2]),i,1,llaux),
     answ:[a0,an,bn],
@@ -419,7 +407,7 @@ fouriercoscoeffpw(Llist,var):=block(
     lm:(Llist[ll][1][2]-Llist[1][1][1]), /*No need to divide by 2*/
     Laux:secsum2bl(Llist),
     llaux:length(Laux),
-    a0:(1/(lm))*pwintegrate(Llist,var),
+    a0:(1/(lm))*pwintegratel(Llist,var),
     an:2*sum(heuristic_an(Laux[i][2],var,lm,Laux[i][1][1],Laux[i][1][2]),i,1,llaux),
     answ:[a0,an],
     answ:map(simplify_sum,answ),
@@ -973,7 +961,7 @@ neumann_heat(Qexpr,Fexpr,h1expr,h2expr,xvar,tvar,kap,p,NN):=block(
   )$
 
 genfouriercoeff(fexpr,a1,b1,a2,b2,xvar,lambda,p):=block(
-    if piecewisep(fexpr) then return(pwintegrate(pwglobalproductl(pw2list(fexpr,xvar),b1*lambda*cos(lambda*xvar)+a1*sin(lambda*xvar)),xvar))
+    if piecewisep(fexpr) then return(pwintegratel(pwglobalproductl(pw2list(fexpr,xvar),b1*lambda*cos(lambda*xvar)+a1*sin(lambda*xvar)),xvar))
     else
     return(integrate(fexpr*(b1*lambda*cos(lambda*xvar)+a1*sin(lambda*xvar)),xvar,0,p))
 )$
@@ -1025,9 +1013,9 @@ else(
         /*intXn:b1^2*lamn^2*(p-b1*(cos(lamn*p))^2/a1)/(2*(sin(lamn*p))^2),display(intXn),*/
         intXn:(a1^2/(2*cos(lamn*p)^2))*(p-b1*cos(lamn*p)^2/a1),
         /*We won't use genfouriercoeff in this case as we are using another expression for Xn*/
-        if piecewisep(fexpr) then gnf:pwintegrate(pwglobalproductl(pw2list(faux,xvar),Xn),xvar)/intXn
+        if piecewisep(fexpr) then gnf:pwintegratel(pwglobalproductl(pw2list(faux,xvar),Xn),xvar)/intXn
             else gnf:integrate(faux*Xn,xvar,0,p)/intXn,
-        if piecewisep(fexpr) then gnq:pwintegrate(pwglobalproductl(pw2list(qaux,xvar),Xn),xvar)/intXn
+        if piecewisep(fexpr) then gnq:pwintegratel(pwglobalproductl(pw2list(qaux,xvar),Xn),xvar)/intXn
             else gnq:integrate(qaux*Xn,xvar,0,p)/intXn,
         /*Let's try to help the simplifier and be consistent*/
         gnf:ratsubst(b1*lamn*cos(lamn*p),a1*sin(lamn*p),gnf),
@@ -1048,7 +1036,7 @@ else(
         gnq:genfouriercoeff(qaux,a1,b1,a2,b2,xvar,lamn,p)/intXn,
         gnf:genfouriercoeff(faux,a1,b1,a2,b2,xvar,lamn,p)/intXn,
         Tn:exp(-kap*(lamn)^2*tvar)*syntactic_factor(integrate(exp(kap*(lamn)^2*s)*at(gnq,tvar=s),s,0,tvar)+gnf),
-        saux+sum(Xn*Tn,n,1,NN)
+        syntactic_divthru(saux)+sum(Xn*Tn,n,1,NN)
         )
     )
 )$
@@ -1110,9 +1098,9 @@ if ((is(a1=0) and is(b2=0)) or (is(a2=0) and is(b1=0))) then (
         lamn:(2*n-1)*%pi/(2*p),
         Xn:-b1*lamn*cos(lamn*xvar)+a1*sin(lamn*xvar),
         intXn:integrate(Xn*Xn,xvar,0,p),
-        gnq:syntactic_factor(trigreduce(genfouriercoeff(qaux,a1,b1,a2,b2,xvar,lamn,p)/intXn)),
-        gnf:syntactic_factor(trigreduce(genfouriercoeff(faux,a1,b1,a2,b2,xvar,lamn,p)/intXn)),
-        gng:syntactic_factor(trigreduce(genfouriercoeff(gaux,a1,b1,a2,b2,xvar,lamn,p)/intXn)),
+        gnq:syntactic_factor(factor(trigreduce(genfouriercoeff(qaux,a1,b1,a2,b2,xvar,lamn,p)/intXn))),
+        gnf:syntactic_factor(factor(trigreduce(genfouriercoeff(faux,a1,b1,a2,b2,xvar,lamn,p)/intXn))),
+        gng:syntactic_factor(factor(trigreduce(genfouriercoeff(gaux,a1,b1,a2,b2,xvar,lamn,p)/intXn))),
         /* The explicit construction of coefficients Tn is with the folowing differential equation
         Tn:factor(radcan(expand(rhs(ic2(ode2('diff(Tn,tvar,2) + cc^2*(lamn)^2*Tn = gnq,Tn,tvar),tvar=0,Tn=gnf,'diff(Tn,tvar)=gng))))),
         This can be solved by the method of variation of parameters obtaining the following
@@ -1356,7 +1344,7 @@ mixedcoscoeff(fexpr,var,p):=block(
     declare(n,integer),
     lamn:(2*n-1)*%pi/(2*p),
     if piecewisep(fexpr) then (
-        ans:trigreduce(2*pwintegrate(pwglobalproductl(pw2list(fexpr,var),cos(lamn*var)),var)/p),
+        ans:trigreduce(2*pwintegratel(pwglobalproductl(pw2list(fexpr,var),cos(lamn*var)),var)/p),
         remove(n,integer),
         return(ratsimp(ans))
         )
@@ -1372,7 +1360,7 @@ mixedsincoeff(fexpr,var,p):=block(
     declare(n,integer),
     lamn:(2*n-1)*%pi/(2*p),
     if piecewisep(fexpr) then (
-        ans:trigreduce(2*pwintegrate(pwglobalproductl(pw2list(fexpr,var),sin(lamn*var)),var)/p),
+        ans:trigreduce(2*pwintegratel(pwglobalproductl(pw2list(fexpr,var),sin(lamn*var)),var)/p),
         remove(n,integer),
         return(ratsimp(ans))
         )
