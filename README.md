@@ -106,7 +106,7 @@ and its bounded version, for which we compute the Fourier series:
 </p>
 
 
-## <a name="frequency">FRequency spectrum<a/> ##
+## <a name="frequency">Frequency spectrum<a/> ##
 
 Frequency analysis is very useful in Engineering applications (but also in Physics). This technique
 requires that the Fourier series be first re-expressed in the following form: by using the identity
